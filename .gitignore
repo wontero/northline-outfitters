@@ -1,0 +1,14 @@
+# Ignore everything (WP core, uploads, database, logs, Local config, secrets)
+/*
+!/.gitignore
+!/README.md
+!/plugins.txt
+!/app/
+/app/*
+!/app/public/
+/app/public/*
+!/app/public/wp-content/
+/app/public/wp-content/*
+!/app/public/wp-content/themes/
+/app/public/wp-content/themes/*
+!/app/public/wp-content/themes/northline-storefront/
