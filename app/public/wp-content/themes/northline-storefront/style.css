@@ -5,3 +5,9 @@ Version:     1.0.0
 Description: Northline Outfitters base child theme for Storefront.
 Text Domain: northline-storefront
 */
+
+
+/* Old price: Storefront sets opacity .65 (2.6:1). Full opacity gives 5.2:1 (WCAG AA). */
+.price del {
+	opacity: 1;
+}
