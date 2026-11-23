@@ -1,7 +1,7 @@
 /*
 Theme Name:  Northline Storefront
 Template:    storefront
-Version:     1.1.0
+Version:     1.1.1
 Description: Northline Outfitters base child theme for Storefront.
 Text Domain: northline-storefront
 */
@@ -15,4 +15,4 @@ Text Domain: northline-storefront
 /* Mobile footer search: hidden behind the bottom bar but still focusable. Hide it until the Search button opens it. */
 .storefront-handheld-footer-bar ul li.search:not(.active) .site-search {
 	visibility: hidden;
-}
+} 
