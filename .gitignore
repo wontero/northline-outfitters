@@ -2,7 +2,6 @@
 /*
 !/.gitignore
 !/README.md
-!/plugins.txt
 !/app/
 /app/*
 !/app/public/
