@@ -10,7 +10,7 @@ Git versions **only the child theme** `northline-storefront`. WordPress core, pl
   - Sale prices: the crossed-out old price has readable contrast.
   - Mobile footer search: hidden until the Search button opens it.
   - "Shop by Brand" home section: shown only when a brand has products, with WooCommerce's brand styles.
-- **LocalWP Blueprint `northline-base-1.0.0`.** A clean copy of Northline: plugins, menu, static home and Yoast templates are already set. It has no orders, customers, Stripe keys or GA ID. It lives in LocalWP on the team machine, not in Git.
+- **LocalWP Blueprint `northline-base-1.0.0`.** A clean copy of Northline: plugins, menu, static home and Yoast templates are already set. It has no orders, customers, Stripe keys or GA ID. It is not in Git: LocalWP saves it as `northline-base-1.0.0.zip` in its `blueprints` folder (Windows: `%APPDATA%\Local\blueprints`). Share that zip in the team Drive, and re-create it with a new version when the plugin baseline or the validated release changes.
 - **Plugin baseline** (below).
 
 **Rule:** don't edit the child theme for one client. A client's identity (logo, colors, texts) goes in *Appearance → Customize*. Code for a single store would go in a plugin for that store.
@@ -34,7 +34,9 @@ Git versions **only the child theme** `northline-storefront`. WordPress core, pl
    - Menu: Home, Shop, My account.
    - Remove the blog widgets and the sample post/page.
    - Category images.
-   - Yoast: home and shop descriptions by hand; products and categories by template.
+   - Yoast: home and shop descriptions by hand; products and categories by template (*Yoast SEO → Settings → Content types / Categories*):
+     - Products: `%%title%% from %%sitename%%. Browse our %%ct_product_cat%% and order online with secure card checkout.`
+     - Product categories: `Shop %%term_title%% at %%sitename%%: outdoor apparel and accessories with secure card checkout.`
 5. Apply the per-store settings.
 
 ## Plugin baseline
@@ -55,13 +57,15 @@ Git versions **only the child theme** `northline-storefront`. WordPress core, pl
 | Staging | `northline-staging.local` (LocalWP *Clone site*) | Testing every release and update first |
 | Production | Hosting (not part of this setup) | The live store |
 
-- **Code moves up** (local → staging → production) as a versioned zip. **Data moves down** (production → staging), anonymized. Never push a database up to production.
+- **Code moves up only** (local → staging → production) as a versioned zip. Never push a database up to production, and don't copy real customer data to staging; staging uses the sample catalog.
 - **Staging isolation** (after cloning):
   - Stripe in test mode.
   - GA measurement ID empty.
   - *Settings → Reading → Discourage search engines* on.
   - Email is caught by LocalWP.
+  - UpdraftPlus: check the backup destination and point it to staging's own storage, so it never writes into another site's backups.
 - Plugin and WordPress updates go to staging first.
+- **Security:** one admin account per person; in production, `define( 'DISALLOW_FILE_EDIT', true );` in `wp-config.php` turns off the theme and plugin file editors; no keys in Git.
 - If a release needs an admin setting, its release notes say so, and it is applied by hand in each environment. Never copy a database to carry a setting.
 
 ## Release, install, rollback
@@ -77,7 +81,7 @@ Git versions **only the child theme** `northline-storefront`. WordPress core, pl
    - Run Lighthouse (mobile, home page) and compare it with the previous version.
    - Test the rollback.
 
-**Install (store owner)**
+**Install (developer, once the store owner approves)**
 
 1. Back up with UpdraftPlus (*Backup Now*).
 2. *Appearance → Themes → Add New Theme → Upload Theme* → zip → **Replace active with uploaded**.
@@ -85,10 +89,10 @@ Git versions **only the child theme** `northline-storefront`. WordPress core, pl
 
 **Rollback**
 
-- **Theme only:** upload the previous zip the same way. Logo and Customizer settings are kept.
+- **Theme only:** upload the previous **validated** zip the same way. From v1.1.1, that is v1.0.0 (v1.1.0 is not validated). Logo and Customizer settings are kept.
 - **Database restore:** this overwrites orders placed since the backup, so use it only as a last resort.
 
 ## Responsibilities
 
-- **Developer:** changes the theme, publishes the release and validates it in staging.
-- **Store owner (one per store):** backs up, installs the validated release, applies the settings from the release notes, and applies plugin updates after staging.
+- **Developer:** changes the theme, publishes the release, validates it in staging, then backs up each store, installs the release, and applies plugin updates after staging.
+- **Store owner (one per store):** approves each update and checks the store afterwards.
