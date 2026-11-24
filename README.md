@@ -10,7 +10,7 @@ Git versions **only the child theme** `northline-storefront`. WordPress core, pl
   - Sale prices: the crossed-out old price has readable contrast.
   - Mobile footer search: hidden until the Search button opens it.
   - "Shop by Brand" home section: shown only when a brand has products, with WooCommerce's brand styles.
-- **LocalWP Blueprint `northline-base-1.0.0`.** A clean copy of Northline: plugins, menu, static home and Yoast templates are already set. It has no orders, customers, Stripe keys or GA ID. It is not in Git: LocalWP saves it as `northline-base-1.0.0.zip` in its `blueprints` folder (Windows: `%APPDATA%\Local\blueprints`). Share that zip in the team Drive, and re-create it with a new version when the plugin baseline or the validated release changes.
+- **LocalWP Blueprint `northline-base-1.0.0`.** A clean copy of Northline: plugins, menu, static home and Yoast templates are already set. It has no orders, customers, Stripe keys or GA ID. It is not in Git: LocalWP saves it as `northline-base-1.0.0.zip` in its `blueprints` folder (Windows: `%APPDATA%\Local\blueprints`). Share that zip in the team Drive, and re-create it with a new version when the plugin baseline changes. The theme is not re-created there: each new store installs the validated release (step 6 below).
 - **Plugin baseline** (below).
 
 **Rule:** don't edit the child theme for one client. A client's identity (logo, colors, texts) goes in *Appearance → Customize*. Code for a single store would go in a plugin for that store.
@@ -18,10 +18,10 @@ Git versions **only the child theme** `northline-storefront`. WordPress core, pl
 ## Create a new store from the Blueprint
 
 1. LocalWP → **+** → *Create from a Blueprint* → `northline-base-1.0.0`.
-2. *Users → Profile*: set a **new admin password**, because the Blueprint carries the base admin.
+2. *Users → Add New User*: create **your own admin account**, log in with it, and delete the base admin that the Blueprint carries, assigning its content to your new account.
 3. Set the site title (*Settings → General*) and the logo (*Customize → Site Identity*).
 4. Apply the per-store settings (below).
-5. UpdraftPlus: connect this store's remote storage and run **Backup Now**.
+5. UpdraftPlus: connect this store's own remote storage (its own Google account) and run **Backup Now**.
 6. The store starts with theme **1.0.0**. Install the validated release zip (see *Install*).
 
 ## Rebuild without the Blueprint
@@ -62,8 +62,8 @@ Git versions **only the child theme** `northline-storefront`. WordPress core, pl
   - Stripe in test mode.
   - GA measurement ID empty.
   - *Settings → Reading → Discourage search engines* on.
-  - Email is caught by LocalWP.
-  - UpdraftPlus: check the backup destination and point it to staging's own storage, so it never writes into another site's backups.
+  - Email is caught by LocalWP. On a host's staging, block outgoing email before testing.
+  - UpdraftPlus: point it to staging's own storage. The free version always uses a Drive folder named `UpdraftPlus`, so use a separate Google account per site, or backups of different sites mix.
 - Plugin and WordPress updates go to staging first.
 - **Security:** one admin account per person; in production, `define( 'DISALLOW_FILE_EDIT', true );` in `wp-config.php` turns off the theme and plugin file editors; no keys in Git.
 - If a release needs an admin setting, its release notes say so, and it is applied by hand in each environment. Never copy a database to carry a setting.
